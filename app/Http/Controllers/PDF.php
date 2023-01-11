@@ -17,19 +17,14 @@ class PDF extends Controller
     public function index(){
 
         //get all files from storage
-        $pdfs = Storage::disk("public")->allFiles("uploads");
+        $pdfs = $this->getFilesFromStorage();
 
-        if(count($pdfs) > 0){
-            $pdfs = collect($pdfs)->map(function ($pdf){
-                //remove dir name from file names
-                $pdf = explode("uploads/", $pdf);
-
-                return [
-                    "name" => $pdf[1],
-                    "url" => Storage::url("uploads/" . $pdf[1])
-                ];
-            });
-        }
+        $pdfs = collect($pdfs)->map(function ($pdf){
+            return [
+                "name" => $pdf,
+                "url" => Storage::url("uploads/" . $pdf)
+            ];
+        });
 
         return view("pdf.pdf", compact("pdfs"));
     }
@@ -77,6 +72,7 @@ class PDF extends Controller
      */
     public function merge(){
 
+        //get files from storage
         $pdfs = $this->getFilesFromStorage();
 
         if(count($pdfs) > 0){
@@ -112,6 +108,12 @@ class PDF extends Controller
             ]);
     }
 
+    /**
+     * Delete the file
+     * @param $fileName
+     * @return \Illuminate\Http\RedirectResponse
+     * GET
+     */
     public function delete($fileName){
 
         if(Storage::disk("public")->exists("/uploads/" . $fileName)){

@@ -17,3 +17,4 @@ use App\Http\Controllers\PDF;
 Route::get("/", [PDF::class, "index"])->name("pdf.index");
 Route::post("pdf/upload", [PDF::class, "upload"])->name("pdf.upload");
 Route::get("pdf/merge", [PDF::class, "merge"])->name("pdf.merge");
+Route::get("pdf/delete/{fileName}", [PDF::class, "delete"])->name("pdf.delete");

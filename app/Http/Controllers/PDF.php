@@ -112,6 +112,36 @@ class PDF extends Controller
             ]);
     }
 
+    public function delete($fileName){
+
+        if(Storage::disk("public")->exists("/uploads/" . $fileName)){
+
+            try{
+                Storage::disk("public")->delete("uploads/" . $fileName);
+                return redirect()
+                    ->back()
+                    ->with([
+                        "message" => "File deleted successfully."
+                    ]);
+            }catch (\Throwable $exception){
+                return redirect()
+                    ->back()
+                    ->with([
+                        "error" => $exception->getMessage()
+                    ]);
+            }
+
+        }
+
+        return redirect()
+            ->back()
+            ->with([
+                "error" => "File does not exist"
+            ]);
+
+    }
+
+
     /**
      * @param $file
      * @return string

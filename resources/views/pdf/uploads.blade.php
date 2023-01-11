@@ -17,9 +17,12 @@
                 <div class="col-6">
                     {{ $pdf["name"] }}
                 </div>
-                <div class="col-6">
+                <div class="col">
                     <a target="_blank" href="{{$pdf["url"]}}">
                         <button class="btn btn-success btn-sm">View in Browser</button>
+                    </a>
+                    <a href="{{route("pdf.delete", ["fileName" => $pdf["name"]])}}">
+                        <button class="btn btn-danger btn-sm">Delete</button>
                     </a>
                 </div>
             </div>
